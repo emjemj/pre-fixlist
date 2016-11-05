@@ -9,6 +9,7 @@ CREATE OR REPLACE TABLE prefix_list_source (
 	entity_type  SOURCE_ENTITY_TYPE NOT NULL,	-- The type of the entity (as-set or as-number)
 	registry TEXT[] NOT NULL,			-- A list of registries to pull data from when expanding the entity
 	created TIMESTAMP NOT NULL,			-- A timestamp for when the row was created
+	fetched TIMESTAMP,				-- A timestamp for when the entity was last fetched
 	metadata JSONB NOT NULL DEFAULT '{}',		-- Addidional metadata for the entry, useful when integrating with other systems
 
 	PRIMARY KEY (source_id)
