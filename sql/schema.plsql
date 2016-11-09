@@ -47,6 +47,7 @@ CREATE OR REPLACE TABLE prefix_list_member_prefix (
 	member_id SERIAL NOT NULL,			-- Auto-incrementing unique key
 	version_id INTEGER NOT NULL,			-- References the version which in turn references the source
 	prefix CIDR NOT NULL,				-- Member prefix
+	origin INTEGER NOT NULL,			-- Origin ASN
 	created TIMESTAMP NOT NULL,			-- A timestamp for when the row was created
 
 	PRIMARY KEY (member_id),
