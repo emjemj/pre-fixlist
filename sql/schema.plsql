@@ -53,3 +53,31 @@ CREATE OR REPLACE TABLE prefix_list_member_prefix (
 	PRIMARY KEY (member_id),
 	FOREIGN KEY (version_id) REFERENCES prefix_list_version (version_id)
 );
+
+--
+-- Local policy for asns expanded from the source entity
+--
+CREATE OR REPLACE TABLE prefix_list_member_asn_policy (
+	policy_id SERIAL NOT NULL,			-- Auto-incrementing unique key
+	source_id INTEGER NOT NULL,			-- References the source
+	asn INTEGER NOT NULL,				-- Member ASN
+	permit BOOLEAN NOT NULL,			-- Wether or not the referenced ASN is permitted by local policy
+	created TIMESTAMP NOT NULL,			-- A timestamp for when the row was created
+
+	PRIMARY KEY (policy_id),
+	FOREIGN KEY (source_id) REFERENCES prefix_list_source(source_id)
+);
+
+--
+-- Local policy for prefixes expanded from the source entity
+--
+CREATE OR REPLACE TABLE prefix_list_member_prefix_policy (
+	policy_id SERIAL NOT NULL,			-- Auto-incrementing unique key
+	source_id INTEGER NOT NULL,			-- References the source
+	prefix CIDR NOT NULL,				-- Member prefix
+	permit BOOLEAN NOT NULL,			-- Wether or not the referenced prefix is permitted by local policy
+	created TIMESTAMP NOT NULL,			-- A timestamp for when the row was created
+
+	PRIMARY KEY (policy_id),
+	FOREIGN KEY (source_id) REFERENCES prefix_list_source(source_id)
+);
