@@ -1,0 +1,18 @@
+---
+ validation:
+  default:
+   violation_action: "deny"
+  validators:
+   -
+    class: MemberASNValidator
+    description: "Deny our local ASN"
+    forbidden_asns:
+     - 43948
+   -
+    class: MemberASNValidator
+    description: "Deny tier one operators"
+    forbidden_asns:
+     - 1299
+     - 2914
+     - 3549
+   
