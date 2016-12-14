@@ -23,10 +23,10 @@ class BaseValidator(metaclass=ABCMeta):
         self.violation_action = config["violation_action"]
 
     def validate(self, asset):
-        print(type(self))
-        print(type(asset))
         if type(asset) is not ASSet:
             raise ValueError("Validation is only possible for ASSets")
+
+        print("Executing validator {}".format(self.config["description"]))
 
         result = []
         for member in asset:
