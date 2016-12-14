@@ -1,4 +1,6 @@
 ---
+ global:
+  interval: 300
  validation:
   default:
    violation_action: "deny"
@@ -14,5 +16,8 @@
     forbidden_asns:
      - 1299
      - 2914
-     - 3549
-   
+     - 3356
+ sources:
+  - "AS-GLESYS"
+  - "AS-PORTLANE"
+  - "AS-SPRITELINK"
