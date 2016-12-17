@@ -4,13 +4,17 @@ class PrefixList:
 
     def __init__(self, name):
         self.name = name
-        self.members = []
+        self.members = {}
 
     def __iter__(self):
-        for member in self.members:
-            yield member
+        for asn in self.members:
+            yield self.members[asn]
 
     def add_member(self, member):
+
+        if member.asn in self.members:
+            return
+
         memb = {
             "asn": member.asn,
             "permit": None,
@@ -33,7 +37,7 @@ class PrefixList:
             }
             memb["inet6"].append(p)
 
-        self.members.append(memb)
+        self.members[member.asn] = memb
 
     @classmethod
     def from_asset(cls, asset):
@@ -45,8 +49,9 @@ class PrefixList:
         return obj
 
     def debug(self):
-        for member in self.members:
-            print("AS{}: {}".format(member["asn"], member["permit"]))
+        for asn in self.members:
+            member = self.members[asn]
+            print("AS{}: {}".format(asn, member["permit"]))
             for i in member["inet"]:
                 print("--{}: {}".format(i["prefix"], i["permit"]))
             for i in member["inet6"]:
