@@ -37,8 +37,6 @@ class Validator:
 
         return klass
 
-    def validate(self, entity):
-        result = []
+    def validate(self, new, old):
         for validator in self.validators:
-            result += validator.validate(entity)
-        return result
+            validator.validate(new, old)

@@ -8,12 +8,12 @@
    -
     class: MemberASNValidator
     description: "Deny our local ASN"
-    forbidden_asns:
+    asns:
      - 43948
    -
     class: MemberASNValidator
     description: "Deny tier one operators"
-    forbidden_asns:
+    asns:
      - 1299
      - 2914
      - 3356

@@ -1,4 +1,4 @@
-from . import validator
+from . import validator, prefixlist
 from time import sleep
 from expandas.loader import RIPERESTLoader
 
@@ -11,6 +11,8 @@ class Updater:
 
         if "validation" in config:
             self.validator = validator.Validator(config["validation"])
+        else:
+            self.validator = validator.Validator({})
 
         if "sources" in config:
             self.sources = config["sources"]
@@ -22,21 +24,15 @@ class Updater:
         while True:
             for source in self.sources:
                 print("Fetching {}".format(source))
+                # Load data from routing registries
                 asset = loader.load_asset(source)
-                validated = self.validate(asset)
-                for v in validated:
-                    print("{}: {}".format(v["member"], v["action"]))
-                denied = [ e for e in validated if e["action"] == "deny" ]
-                print("{} denied entries in {}".format(len(denied), asset))
+
+                new = prefixlist.PrefixList.from_asset(asset)
+
+                # Use an empty list as the old one now.
+                old = prefixlist.PrefixList(asset.name)
+
+                self.validator.validate(new, old)
+                new.debug()
 
             sleep(interval)
-
-    def validate(self, asset):
-        result = []
-        if self.validator is None:
-            for member in asset:
-                # Default permit if no validators are specified
-                result.append({"member": member, "action": "permit" })
-        else:
-            result = self.validator.validate(asset)
-        return result
