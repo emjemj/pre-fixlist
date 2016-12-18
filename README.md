@@ -10,3 +10,4 @@ A tool for managing prefix lists
 - Provide a REST API to
   - Fetch expanded data 
   - Add new as-macros to be polled from registries
+  - On-demand update of prefix list
