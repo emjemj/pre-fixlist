@@ -17,7 +17,7 @@
      - 1299
      - 2914
      - 3356
- sources:
+ rpsl_objects:
   - "AS-GLESYS"
   - "AS-PORTLANE"
   - "AS-SPRITELINK"

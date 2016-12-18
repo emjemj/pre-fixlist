@@ -7,30 +7,30 @@ class Updater:
     def __init__(self, config):
         self.config = config
         self.validator = None
-        self.sources = []
+        self.rpsl_objects = []
 
         if "validation" in config:
             self.validator = validator.Validator(config["validation"])
         else:
             self.validator = validator.Validator({})
 
-        if "sources" in config:
-            self.sources = config["sources"]
+        if "rpsl_objects" in config:
+            self.rpsl_objects = config["rpsl_objects"]
 
     def run(self):
         loader = RIPERESTLoader()
         interval = self.config["global"]["interval"]
 
         while True:
-            for source in self.sources:
-                print("Fetching {}".format(source))
+            for rpsl_object in self.rpsl_objects:
+                print("Fetching {}".format(rpsl_object))
                 # Load data from routing registries
-                asset = loader.load_asset(source)
+                as_set = loader.load_asset(rpsl_object)
 
-                new = prefixlist.PrefixList.from_asset(asset)
+                new = prefixlist.PrefixList.from_asset(as_set)
 
                 # Use an empty list as the old one now.
-                old = prefixlist.PrefixList(asset.name)
+                old = prefixlist.PrefixList(rpsl_object)
 
                 self.validator.validate(new, old)
                 new.debug()
