@@ -42,6 +42,6 @@ class BaseDAO(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def remove_source(leaf, source):
+    def remove_source(self, source):
         """ Remove source definition """
         pass
