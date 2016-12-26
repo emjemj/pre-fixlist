@@ -10,7 +10,6 @@ class PrefixListList(Resource):
         # Return a list of all prefix lists we know about
         return None
 
-
 class PrefixList(Resource):
 
     def get(self, listid):
@@ -33,7 +32,6 @@ class PrefixListVersion(Resource):
     def get(self, listid, version):
         # Return a list of prefixes contained in the specific version of the prefixlist
         return None
-
 
 api.add_resource(PrefixListList, "/prefixlist")
 api.add_resource(PrefixList, "/prefixlist/<int:listid>")
