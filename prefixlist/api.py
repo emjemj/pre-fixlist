@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import reqparse, abort, Api, Resource
+from flask_restful import abort, Api, Resource
 
 app = Flask("pre-fixlist")
 api = Api(app)
