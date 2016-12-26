@@ -10,6 +10,21 @@ from . import prefixlist
                   point in time from the routing registry
 """
 
+class DAO:
+    instance = None
+
+    @classmethod
+    def setup(cls, dao, config):
+        cls.instance = dao(config)
+
+        return cls.instance
+
+    @classmethod
+    def instance(cls):
+        if cls.instance is None:
+            raise Exception("Please run setup before trying to use it")
+        return cls.instance
+
 class BaseDAO(metaclass=ABCMeta):
 
     def store_prefixlist(self, rpsl_object, prefixlist):
@@ -108,4 +123,48 @@ class BaseDAO(metaclass=ABCMeta):
     @abstractmethod
     def update_rpsl_object_exec(self, rpsl_object, data):
         """ Implementation of update_rpsl_object """
+        pass
+
+class PostgresDAO(BaseDAO):
+
+    def __init__(self, config):
+        import psycopg2
+
+        if "host" not in config:
+            raise ValueError("Missing required parameter host in PostgresDAO config")
+        if "dbname" not in config:
+            raise ValueError("Missing required parameter dbname in PostgresDAO config")
+        if "user" not in config:
+            raise ValueError("Missing required parameter user in PostgresDAO config")
+        if "password" not in config:
+            raise ValueError("Missing required parameter password in PostgresDAO config")
+
+        dsn = "host={} dbname={} user={} password={}".format(config["host"],
+                                                             config["dbname"],
+                                                             config["user"],
+                                                             config["password"])
+        self.conn = psycopg2.connect(dsn)
+
+    def store_prefixlist_exec(self, rpsl_object, prefixlist):
+        pass
+
+    def load_prefixlist_exec(self, rpsl_object, version):
+        pass
+
+    def list_prefixlist_exec(self, rpsl_object):
+        pass
+
+    def store_rpsl_object_exec(self, data):
+        pass
+
+    def load_rpsl_object_exec(self, rpsl_object):
+        pass
+
+    def list_rpsl_object_exec(self):
+        pass
+
+    def remove_rpsl_object_exec(self, rpsl_object):
+        pass
+
+    def update_rpsl_object_exec(self, rpsl_object, data):
         pass
