@@ -11,19 +11,19 @@ from . import prefixlist
 """
 
 class DAO:
-    instance = None
+    dao_instance = None
 
     @classmethod
     def setup(cls, dao, config):
-        cls.instance = dao(config)
+        cls.dao_instance = dao(config)
 
-        return cls.instance
+        return cls.dao_instance
 
     @classmethod
     def instance(cls):
-        if cls.instance is None:
+        if cls.dao_instance is None:
             raise Exception("Please run setup before trying to use it")
-        return cls.instance
+        return cls.dao_instance
 
 class BaseDAO(metaclass=ABCMeta):
 
