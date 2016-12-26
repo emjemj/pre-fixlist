@@ -15,6 +15,8 @@ class DAO:
 
     @classmethod
     def setup(cls, dao, config):
+        if type(dao) is str:
+            dao = cls.load_class(dao)
         cls.dao_instance = dao(config)
 
         return cls.dao_instance
@@ -24,6 +26,15 @@ class DAO:
         if cls.dao_instance is None:
             raise Exception("Please run setup before trying to use it")
         return cls.dao_instance
+
+    @classmethod
+    def load_class(cls, fqcn):
+        parts = fqcn.split(".")
+        modname = ".".join(parts[0:-1])
+        classname = parts[-1]
+
+        mod = __import__(modname, fromlist=[classname])
+        return getattr(mod, classname)
 
 class BaseDAO(metaclass=ABCMeta):
 
