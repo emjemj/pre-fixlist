@@ -64,7 +64,6 @@ class BaseDAO(metaclass=ABCMeta):
 
         return self.list_prefixlist_exec(rpsl_object)
 
-
     @abstractmethod
     def list_prefixlist_exec(self, rpsl_object):
         """ Implementation of list_prefixlist """
