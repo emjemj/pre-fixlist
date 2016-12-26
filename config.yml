@@ -1,6 +1,12 @@
 ---
  global:
   interval: 300
+ dao:
+  class: prefixlist.dao.PostgresDAO
+  host: "localhost"
+  dbname: "prefixlist"
+  user: "emj"
+  password: "emj"
  validation:
   default:
    violation_action: "deny"

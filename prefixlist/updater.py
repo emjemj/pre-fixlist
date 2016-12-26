@@ -1,4 +1,4 @@
-from . import validator, prefixlist
+from . import validator, prefixlist, dao
 from time import sleep
 from expandas.loader import RIPERESTLoader
 
@@ -16,6 +16,9 @@ class Updater:
 
         if "rpsl_objects" in config:
             self.rpsl_objects = config["rpsl_objects"]
+
+        if "dao" in config:
+            dao.DAO.setup(config["dao"]["class"], config["dao"])
 
     def run(self):
         loader = RIPERESTLoader()
