@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_restful import abort, Api, Resource
+from flask_cors import CORS
 
 app = Flask("pre-fixlist")
 api = Api(app)
+CORS(app)
 
 class PrefixListList(Resource):
 
