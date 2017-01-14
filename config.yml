@@ -1,6 +1,6 @@
 ---
  global:
-  interval: 300
+  interval: 10
  dao:
   class: prefixlist.dao.PostgresDAO
   host: "localhost"
@@ -24,6 +24,5 @@
      - 2914
      - 3356
  rpsl_objects:
-  - "AS-GLESYS"
-  - "AS-PORTLANE"
   - "AS-SPRITELINK"
+  - "AS-CORE9"
