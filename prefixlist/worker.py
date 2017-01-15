@@ -2,6 +2,7 @@ import multiprocessing
 from . import prefixlist, dao
 from expandas.loader import RIPERESTLoader
 import queue
+import logging
 
 class Worker(multiprocessing.Process):
     def __init__(self, queue, validator):
@@ -13,14 +14,13 @@ class Worker(multiprocessing.Process):
 
     def run(self):
         while not self.exit.is_set():
-            print("wee")
             try:
                 item = self.queue.get(True, 5)
             except queue.Empty:
                 # No item from queue, try again
                 continue
 
-            print("Working on {}".format(item))
+            logging.info("Working on %s", item)
 
             as_set = self.loader.load_asset(item)
             new = prefixlist.PrefixList.from_asset(as_set)
@@ -28,9 +28,8 @@ class Worker(multiprocessing.Process):
 
             self.validator.validate(new, old)
             new.debug()
-        print("Worker loop exited")
+        logging.info("Worker stopped")
 
     def stop(self):
-        print("Stopping worker")
+        logging.info("Stopping worker")
         self.exit.set()
-        print("Stopped worker")

@@ -1,6 +1,7 @@
 from multiprocessing import Queue
 from . import dao, validator, webserver, updater, api, worker
 import yaml
+import logging
 
 class PrefixListMain:
 
@@ -9,6 +10,9 @@ class PrefixListMain:
     workers = []
 
     def __init__(self, configfile):
+
+        # Set up logging
+        logging.basicConfig(level=logging.DEBUG)
 
         with open(configfile, "r") as stream:
             config = yaml.load(stream)
@@ -45,11 +49,11 @@ class PrefixListMain:
         self.webServerThread.start()
 
     def stop(self):
-        print("Stopping the show")
+        logging.info("Shutting down")
         self.updaterThread.stop()
         self.webServerThread.stop()
 
         for w in self.workers:
             w.stop()
 
-        print("Show stopped")
+        logging.info("Sent shutdown signal to all subprocesses")

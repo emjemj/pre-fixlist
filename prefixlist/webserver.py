@@ -4,13 +4,12 @@ from tornado.httpserver import HTTPServer
 from tornado.wsgi import WSGIContainer
 from tornado.ioloop import IOLoop
 import time
+import logging
 
-#class WebServer(threading.Thread):
 class WebServer(multiprocessing.Process):
 
     def __init__(self, port, app, queue):
-       # threading.Thread.__init__(self)
-        multiprocessing.Process.__init__(self)
+        super().__init__()
         self.threadId = 2
         self.name = "pre-fixlist.WebServer"
         self.queue = queue
@@ -24,8 +23,9 @@ class WebServer(multiprocessing.Process):
         self.ioloop.start()
 
     def stop(self):
-        print("Stopping webserver")
+        logging.info("Stopping webserver")
         self.server.stop()
         self.ioloop.stop()
+        # This can probably be done in a neater way
         self.terminate()
-        print("Stopped webserver") 
+        logging.info("Stopped webserver")
