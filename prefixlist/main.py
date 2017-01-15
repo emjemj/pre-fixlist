@@ -36,9 +36,10 @@ class PrefixListMain:
         self.config = config
 
         self.queue = Queue()
+        api.queue = self.queue
 
         self.updaterThread = updater.UpdaterWorker(self.rpsl_objects, self.queue)
-        self.webServerThread = webserver.WebServer(5000, api.app, self.queue)
+        self.webServerThread = webserver.WebServer(5000, api, self.queue)
 
         for i in range(0,1):
             wrk = worker.Worker(self.queue, self.validator)

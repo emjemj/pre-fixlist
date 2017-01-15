@@ -8,14 +8,15 @@ import logging
 
 class WebServer(multiprocessing.Process):
 
-    def __init__(self, port, app, queue):
+    def __init__(self, port, api, queue):
         super().__init__()
         self.threadId = 2
         self.name = "pre-fixlist.WebServer"
         self.queue = queue
         self.ioloop = IOLoop.instance()
+        api.queue = queue
 
-        self.server = HTTPServer(WSGIContainer(app))
+        self.server = HTTPServer(WSGIContainer(api.app))
         self.server.listen(port)
         self.exit = multiprocessing.Event()
 

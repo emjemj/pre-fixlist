@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_restful import abort, Api, Resource
 from flask_cors import CORS
+import logging
 
 app = Flask("pre-fixlist")
 api = Api(app)
+queue = None
 CORS(app)
 
 class PrefixListList(Resource):
@@ -14,8 +16,13 @@ class PrefixListList(Resource):
 
 class PrefixList(Resource):
 
+    def __init__(self):
+        # This doesn't make me proud, but it works for now.
+        global queue
+        self.queue = queue
+
     def get(self, listid):
-        # Return a list of versions 
+        # Return a list of versions
         return None
 
     def post(self):
