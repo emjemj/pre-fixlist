@@ -14,23 +14,18 @@ class WebServer(multiprocessing.Process):
         self.threadId = 2
         self.name = "pre-fixlist.WebServer"
         self.queue = queue
+        self.ioloop = IOLoop.instance()
 
         self.server = HTTPServer(WSGIContainer(app))
         self.server.listen(port)
         self.exit = multiprocessing.Event()
 
     def run(self):
-        IOLoop.instance().start()
-
-        try:
-            while not self.exit.is_set():
-                sleep(1)
-        finally:
-            print("Finally!")
-            IOLoop.instance().stop()
-        
-
+        self.ioloop.start()
 
     def stop(self):
         print("Stopping webserver")
-        self.exit.set()
+        self.server.stop()
+        self.ioloop.stop()
+        self.terminate()
+        print("Stopped webserver") 

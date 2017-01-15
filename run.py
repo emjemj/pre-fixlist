@@ -5,7 +5,5 @@ from time import sleep
 
 main = PrefixListMain("config.yml")  
 
-
 sleep(10)
-
 main.stop()

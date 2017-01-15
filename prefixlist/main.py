@@ -1,6 +1,7 @@
 from multiprocessing import Queue
 from . import dao, validator, webserver, updater, api, worker
 import yaml
+
 class PrefixListMain:
 
     updaterThread = None
@@ -50,3 +51,5 @@ class PrefixListMain:
 
         for w in self.workers:
             w.stop()
+
+        print("Show stopped")
